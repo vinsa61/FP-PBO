@@ -1,0 +1,3 @@
+repository "LBE2 2024-11-21_13-40-33/LBE2@20067386533352@cloud"
+  path "/"
+    smartbranch "/main"
