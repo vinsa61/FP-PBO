@@ -37,9 +37,9 @@ public class AudioManager : MonoBehaviour
 
             MusicSource.clip = Music;
             MusicSource.Play();
-
+            
             SFXSource.enabled = false;
-
+            Walk();
             StartAmbience();
 
         }

@@ -219,23 +219,23 @@ public class UpgradeShopUI : MonoBehaviour
     {
         var playerCredit = GameManager.Instance.player.credit;
 
-        DisableBuyChickenPen.enabled = chickenPenBought || playerCredit < 100;
+        DisableBuyChickenPen.enabled = chickenPenBought || playerCredit < 1000;
 
   
-        DisableBuyCowPen.enabled = cowPenBought || playerCredit < 300;
+        DisableBuyCowPen.enabled = cowPenBought || playerCredit < 3000;
 
       
         DisableBuyChicken.enabled = !chickenPenBought;
-        DisableBuyChickenMale.enabled = !chickenPenBought || playerCredit < 50;
-        DisableBuyChickenFemale.enabled = !chickenPenBought || playerCredit < 50;
+        DisableBuyChickenMale.enabled = !chickenPenBought || playerCredit < 500;
+        DisableBuyChickenFemale.enabled = !chickenPenBought || playerCredit < 500;
 
         DisableSellChickenMale.enabled = ChickenListMale.Count == 0;
         DisableSellChickenFemale.enabled = ChickenListFemale.Count == 0;
 
 
         DisableBuyCow.enabled = !cowPenBought;
-        DisableBuyCowMale.enabled = !cowPenBought || playerCredit < 100;
-        DisableBuyCowFemale.enabled = !cowPenBought || playerCredit < 100;
+        DisableBuyCowMale.enabled = !cowPenBought || playerCredit < 1000;
+        DisableBuyCowFemale.enabled = !cowPenBought || playerCredit < 1000;
 
         DisableSellCowMale.enabled = CowListMale.Count == 0;
         DisableSellCowFemale.enabled = CowListFemale.Count == 0;
@@ -246,10 +246,10 @@ public class UpgradeShopUI : MonoBehaviour
 
     private void BuyPenChicken()
     {
-        if (GameManager.Instance.player.credit >= 100)
+        if (GameManager.Instance.player.credit >= 1000)
         {
             GameManager.Instance.tileManager.ChickenPenBought();
-            GameManager.Instance.player.credit -= 100;
+            GameManager.Instance.player.credit -= 1000;
             chickenPenBought = true;
             UpdateUI();
         }
@@ -257,10 +257,10 @@ public class UpgradeShopUI : MonoBehaviour
 
     private void BuyPenCow()
     {
-        if (GameManager.Instance.player.credit >= 300)
+        if (GameManager.Instance.player.credit >= 3000)
         {
             GameManager.Instance.tileManager.CowPenBought();
-            GameManager.Instance.player.credit -= 300;
+            GameManager.Instance.player.credit -= 3000;
             cowPenBought = true;
             UpdateUI();
         }
@@ -268,9 +268,9 @@ public class UpgradeShopUI : MonoBehaviour
 
     private void BuyMaleChicken()
     {
-        if (GameManager.Instance.player.credit >= 50)
+        if (GameManager.Instance.player.credit >= 500)
         {
-            GameManager.Instance.player.credit -= 50;
+            GameManager.Instance.player.credit -= 500;
             var newChicken = Instantiate(maleChicken, positionChicken, Quaternion.identity);
             ChickenListMale.Add(newChicken);
             UpdateUI();
@@ -279,9 +279,9 @@ public class UpgradeShopUI : MonoBehaviour
 
     private void BuyFemaleChicken()
     {
-        if (GameManager.Instance.player.credit >= 50)
+        if (GameManager.Instance.player.credit >= 500)
         {
-            GameManager.Instance.player.credit -= 50;
+            GameManager.Instance.player.credit -= 500;
             var newChicken = Instantiate(femaleChicken, positionChicken, Quaternion.identity);
             ChickenListFemale.Add(newChicken);
             UpdateUI();
@@ -295,7 +295,7 @@ public class UpgradeShopUI : MonoBehaviour
             var chickenToSell = ChickenListMale[0];
             ChickenListMale.Remove(chickenToSell);
             Destroy(chickenToSell.gameObject);
-            GameManager.Instance.player.credit += 25; // Example sell value
+            GameManager.Instance.player.credit += 450; // Example sell value
             UpdateUI();
         }
     }
@@ -307,16 +307,16 @@ public class UpgradeShopUI : MonoBehaviour
             var chickenToSell = ChickenListFemale[0];
             ChickenListFemale.Remove(chickenToSell);
             Destroy(chickenToSell.gameObject);
-            GameManager.Instance.player.credit += 25; // Example sell value
+            GameManager.Instance.player.credit += 450; // Example sell value
             UpdateUI();
         }
     }
 
     private void BuyMaleCow()
     {
-        if (GameManager.Instance.player.credit >= 100)
+        if (GameManager.Instance.player.credit >= 1000)
         {
-            GameManager.Instance.player.credit -= 100;
+            GameManager.Instance.player.credit -= 1000;
             var newCow = Instantiate(maleCow, positionCow, Quaternion.identity);
             CowListMale.Add(newCow);
             UpdateUI();
@@ -325,9 +325,9 @@ public class UpgradeShopUI : MonoBehaviour
 
     private void BuyFemaleCow()
     {
-        if (GameManager.Instance.player.credit >= 100)
+        if (GameManager.Instance.player.credit >= 1000)
         {
-            GameManager.Instance.player.credit -= 100;
+            GameManager.Instance.player.credit -= 1000;
             var newCow = Instantiate(femaleCow, positionCow, Quaternion.identity);
             CowListFemale.Add(newCow);
             UpdateUI();
@@ -341,7 +341,7 @@ public class UpgradeShopUI : MonoBehaviour
             var cowToSell = CowListMale[0];
             CowListMale.Remove(cowToSell);
             Destroy(cowToSell.gameObject);
-            GameManager.Instance.player.credit += 75; // Example sell value
+            GameManager.Instance.player.credit += 750; // Example sell value
             UpdateUI();
         }
     }
@@ -353,7 +353,7 @@ public class UpgradeShopUI : MonoBehaviour
             var cowToSell = CowListFemale[0];
             CowListFemale.Remove(cowToSell);
             Destroy(cowToSell.gameObject);
-            GameManager.Instance.player.credit += 75; // Example sell value
+            GameManager.Instance.player.credit += 750; // Example sell value
             UpdateUI();
         }
     }

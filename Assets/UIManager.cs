@@ -73,6 +73,8 @@ public class UIManager : MonoBehaviour
                 isToggle = false;
                 inventoryPanel2.SetActive(false);
                 toolbarPanel.SetActive(true);
+                RefreshInventoryUI("Toolbar");
+                RefreshInventoryUI("Backpack");
             }
         }
 
@@ -116,14 +118,18 @@ public class UIManager : MonoBehaviour
     {
         if (inventoryPanel != null)
         {
-            if (!inventoryPanel.activeSelf)
+            if (!inventoryPanel2.activeSelf)
             {
-                inventoryPanel.SetActive(true);
-                RefreshInventoryUI("Backpack");
-            }
-            else
-            {
-                inventoryPanel.SetActive(false);
+
+                if (!inventoryPanel.activeSelf)
+                {
+                    inventoryPanel.SetActive(true);
+                    RefreshInventoryUI("Backpack");
+                }
+                else
+                {
+                    inventoryPanel.SetActive(false);
+                }
             }
         }
 
