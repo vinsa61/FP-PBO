@@ -15,24 +15,82 @@ public class GameManager : MonoBehaviour
     public DayTimecontro dayTimeController;
     public CropManager cropManager;
 
-
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
 
-        if (Instance != null && Instance != this)
+            // Jangan hancurkan semua manager jika ada
+            if (ItemManager != null)
+                DontDestroyOnLoad(ItemManager.gameObject);
+
+            if (tileManager != null)
+                DontDestroyOnLoad(tileManager.gameObject);
+
+            if (uiManager != null)
+                DontDestroyOnLoad(uiManager.gameObject);
+
+            if (player != null)
+                DontDestroyOnLoad(player.gameObject);
+
+            if (dayTimeController != null)
+                DontDestroyOnLoad(dayTimeController.gameObject);
+
+            if (cropManager != null)
+                DontDestroyOnLoad(cropManager.gameObject);
+
+            // Tambahkan listener untuk scene change
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-       
-        InitializeComponents();
     }
 
-    private void InitializeComponents()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Cek jika scene adalah MainMenu
+        if (scene.name == "MainMenu")
+        {
+            SetManagersActive(false); // Nonaktifkan semua manager
+        }
+        else if (scene.name == "GameScene")
+        {
+            SetManagersActive(true); // Aktifkan semua manager
+        }
+    }
+
+    private void SetManagersActive(bool state)
+    {
+        if (ItemManager != null)
+            ItemManager.gameObject.SetActive(state);
+
+        if (tileManager != null)
+            tileManager.gameObject.SetActive(state);
+
+        if (uiManager != null)
+            uiManager.gameObject.SetActive(state);
+
+        if (player != null)
+            player.gameObject.SetActive(state);
+
+        if (dayTimeController != null)
+            dayTimeController.gameObject.SetActive(state);
+
+        if (cropManager != null)
+            cropManager.gameObject.SetActive(state);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; 
+    }
+
+
+private void InitializeComponents()
     {
         if (ItemManager == null)
         {

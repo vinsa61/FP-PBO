@@ -52,10 +52,6 @@ public class UIManager : MonoBehaviour
             ToggleMainMenu();
         }
         dragSingle = Input.GetKey(KeyCode.LeftShift);
-        if (Input.GetKey(KeyCode.H))
-        {
-            ToggleUpgrade();
-        }
     }
 
     public void ToggleShop()
@@ -86,7 +82,8 @@ public class UIManager : MonoBehaviour
             {
                 shopPanel.SetActive(true);
                 RefreshInventoryUI("Shop");
-
+                RefreshInventory2UI("ShopInventory");
+                RefreshInventoryUI("Toolbar");
             }
             else
             {
@@ -103,11 +100,13 @@ public class UIManager : MonoBehaviour
         {
             if (!upgradePanel.activeSelf)
             {
+                isToggle = true;
                 upgradePanel.SetActive(true);
             
             }
             else
             {
+                isToggle = false;
                 upgradePanel.SetActive(false);
             }
         }

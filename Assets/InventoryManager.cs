@@ -14,14 +14,20 @@ public class InventoryManager : MonoBehaviour
     [Header("Toolbar")]
     public Inventory toolbar;
     public int toolbarSlotCount;
+    
+    [Header("ShopList")]
+    public Inventory shopList;
+    public int shopSlotCount;
     private void Awake()
     {
         backpack = new Inventory(backpackSlotCount);
         toolbar = new Inventory(toolbarSlotCount);
+        shopList = new Inventory(shopSlotCount);
 
         //Debug.Log($"Toolbar Slot: {toolbarSlotCount}");
         inventoryByName.Add("Backpack", backpack);
         inventoryByName.Add("Toolbar", toolbar);
+        inventoryByName.Add("ShopList", shopList);
     }
 
     public void Add(string name, Item item)

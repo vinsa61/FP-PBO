@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class Sophia : MonoBehaviour
 {
-    private bool isPlayerInRange = false;
+    private bool isPlayerInRangeofSophia = false;
 
     private void Update()
     {
-        //Debug.Log(isPlayerInRange);
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.Space))
+        if (isPlayerInRangeofSophia && Input.GetKeyDown(KeyCode.Space))
         {
             ToggleShop();
         }
@@ -17,7 +16,7 @@ public class Sophia : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = true;
+            isPlayerInRangeofSophia = true;
         }
     }
 
@@ -25,7 +24,7 @@ public class Sophia : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = false;
+            isPlayerInRangeofSophia = false;
         }
     }
 

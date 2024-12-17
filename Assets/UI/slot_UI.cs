@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using static Inventory;
 
 public class slot_UI : MonoBehaviour
 {
@@ -30,6 +31,19 @@ public class slot_UI : MonoBehaviour
         }
     }
 
+    public void AddShopItem(Inventory.Slot slot)
+    {
+        if (slot.itemName != null)
+        {
+            itemicon.sprite = slot.icon;
+            itemicon.color = new Color(1, 1, 1, 1);
+            quantity.text = "";
+        } 
+        else
+        {
+            Debug.LogError($"Set Item Failed.");
+        }
+    }
     public void SetEmpty()
     {
         itemicon.sprite = null;
@@ -55,11 +69,11 @@ public class slot_UI : MonoBehaviour
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            GameManager.Instance.uiManager.inventoryUI.Sell(this);
-        }
-    }
+    //public void OnPointerDown(PointerEventData eventData)
+    //{
+    //    if (eventData.button == PointerEventData.InputButton.Left)
+    //    {
+    //        GameManager.Instance.uiManager.inventoryUI.Sell(this);
+    //    }
+    //}
 }

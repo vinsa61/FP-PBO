@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Strawberry_Seed
   icon: {fileID: 317743392, guid: 22edae3ab6eb4ff4bad4f03e7e9d0cb7, type: 3}
+  price: 100

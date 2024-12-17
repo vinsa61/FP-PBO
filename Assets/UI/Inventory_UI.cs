@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using static Inventory;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class Inventory_UI : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class Inventory_UI : MonoBehaviour
     private Inventory inventory;
     private Inventory backpackInventory;
     private Inventory toolbarInventory;
+    private Inventory shopList;
 
     private void Awake()
     {   
@@ -32,6 +35,22 @@ public class Inventory_UI : MonoBehaviour
             SetupSlotsShop(backpackInventory, 0, 25);
             SetupSlotsShop(toolbarInventory, 25, 10);
             RefreshShop();
+        } else if (inventoryName == "ShopList")
+        {
+            shopList = GameManager.Instance.player.inventory.GetInventorybyName("ShopList");
+            SetupSlots();
+  
+            foreach (var item in GameManager.Instance.ItemManager.items)
+            {
+                if(item.data.price == 0)
+                {
+                    continue;
+                }
+                shopList.AddShop(item);
+                
+            }
+
+            RefreshShopList();
         }
         else
         {
@@ -44,9 +63,9 @@ public class Inventory_UI : MonoBehaviour
 
     public void Refresh()
     {
-        if (inventoryName == "ShopInventory")
+        if (inventoryName == "ShopInventory" || inventoryName == "ShopList")
         {
-            Debug.Log("Skipping Refresh for ShopInventory.");
+            Debug.Log("Skipping Refresh.");
             return;
         }
 
@@ -131,6 +150,33 @@ public class Inventory_UI : MonoBehaviour
         }
 
     }
+    public void RefreshShopList()
+    {
+        if (shopList.slots.Count != 35)
+        {
+            Debug.LogError("Shop List size mismatch.");
+            return;
+        }
+
+        // Update Shop List UI
+        for (int i = 0; i < 35; i++)
+        {
+
+
+            if (shopList.slots[i].itemName != "")
+            {
+                slots[i].AddShopItem(shopList.slots[i]);
+           
+                Canvas.ForceUpdateCanvases();
+            }
+            else
+            {
+                slots[i].SetEmpty();
+            }
+            //shopList.Add(GameManager.Instance.ItemManager.GetItemByName("StrawberryFruit"));
+            
+        }
+    }
 
     public void Sell(slot_UI slot)
     {
@@ -145,6 +191,7 @@ public class Inventory_UI : MonoBehaviour
         if (targetSlot != null && targetSlot.count > 0)
         {
             Item soldItem = GameManager.Instance.ItemManager.GetItemByName(targetSlot.itemName);
+            Debug.Log(targetSlot.itemName);
             if(soldItem.data.price > 0)
             {
                 //Debug.Log(soldItem.data.price);
@@ -169,6 +216,68 @@ public class Inventory_UI : MonoBehaviour
         else
         {
             Debug.LogWarning("No item to sell or item count is already zero.");
+        }
+    }
+
+    public void Buy(slot_UI slot)
+    {
+        if(inventoryName != "ShopList")
+        {
+            return;
+        }
+
+        Debug.LogWarning($"{slot.slotID}");
+
+        if (shopList.slots[slot.slotID].IsEmpty)
+        {
+            Debug.LogError("Invalid slot or inventory during purchase.");
+            return;
+        }
+
+     
+        var shopSlot = shopList.slots[slot.slotID];
+
+        Debug.LogWarning($"{slot.slotID}");
+
+        if (shopSlot == null || string.IsNullOrEmpty(shopSlot.itemName))
+        {
+            Debug.LogWarning("No item to buy in this slot.");
+            return;
+        }
+
+
+        Item itemToBuy = GameManager.Instance.ItemManager.GetItemByName(shopSlot.itemName);
+        if (itemToBuy == null)
+        {
+            Debug.LogError("Item not found in the database.");
+            return;
+        }
+
+
+        int itemPrice = itemToBuy.data.price;
+        if (GameManager.Instance.player.credit < itemPrice)
+        {
+            Debug.LogWarning("Not enough credits to buy this item.");
+            return;
+        }
+
+        Inventory backpack = GameManager.Instance.player.inventory.GetInventorybyName("Backpack");
+        bool added = backpack.AddCheck(itemToBuy);
+
+        if (added)
+        {
+            GameManager.Instance.player.credit -= itemPrice;
+
+            Debug.Log($"Bought {itemToBuy.data.name} for {itemPrice} credits.");
+
+            UIManager.Instance.RefreshInventoryUI("Backpack");
+            UIManager.Instance.RefreshInventory2UI("ShopInventory");
+      
+
+        }
+        else
+        {
+            Debug.LogWarning("Backpack is full. Cannot add the item.");
         }
     }
 
@@ -289,5 +398,18 @@ public class Inventory_UI : MonoBehaviour
             slots[startIndex + i].slotID = i;
             slots[startIndex + i].inventory = targetInventory;
         }
+    }
+
+    void SetupSlotsShopList()
+    {
+        int counter = 0;
+        foreach (slot_UI slot in slots)
+        {
+            slot.slotID = counter;
+            counter++;
+            slot.inventory = inventory;
+        }
+        counter = 0;
+
     }
 }

@@ -99,10 +99,45 @@ public class Inventory
         {
             if(slot.itemName == "")
             {
-                slot.AddItem(itemAdd);    
+                slot.AddItem(itemAdd); 
+    
                 return ;
             }
         }
+    }
+
+    public void AddShop(Item itemAdd)
+    {
+
+        foreach (Slot slot in slots)
+        {
+            if (slot.itemName == "")
+            {
+                slot.AddItem(itemAdd);
+                return;
+            }
+        }
+    }
+
+    public bool AddCheck(Item itemAdd)
+    {
+        foreach(Slot slot in slots)
+        {
+            if(slot.itemName == itemAdd.data.itemName && slot.Cek(itemAdd.data.itemName))
+            {
+                slot.AddItem(itemAdd);
+                return true;
+            }
+        }
+        foreach(Slot slot in slots)
+        {
+            if(slot.itemName == "")
+            {
+                slot.AddItem(itemAdd);    
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Remove(int index)

@@ -21,11 +21,12 @@ public class DayTimecontro : MonoBehaviour
     [SerializeField] AnimationCurve eveningNight;
     
 
-    float time;
-    private int days;
+    public float time { get; private set; }
+    public int days { get ; private set; }  
     [SerializeField] float timeScale;
     [SerializeField] TMP_Text text;
     [SerializeField] Light2D globalLight;
+    [SerializeField] GameObject[] targetObjects;
     public float Hours
     {
         get { return time / 3600f; }
@@ -71,8 +72,27 @@ public class DayTimecontro : MonoBehaviour
 
         }
 
-    }
+        if (Hours >= 18 && Hours <= 24)
+        {
+            ToggleVisible(true); // Make all targets visible
+        }
+        else
+        {
+            ToggleVisible(false); // Hide all targets
+        }
 
+    }
+    private void ToggleVisible(bool isVisible)
+    {
+        foreach (GameObject target in targetObjects)
+        {
+            if (target != null && target.activeSelf != isVisible)
+            {
+                target.SetActive(isVisible);
+                //Debug.Log($"{target.name} visibility set to: {isVisible}");
+            }
+        }
+    }
     private void NextDay()
     {
         time = 0;

@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         inventory = GetComponent<InventoryManager>();
-        credit = 50;
+        credit = 2000;
     }
 
 
@@ -104,18 +104,19 @@ public class Player : MonoBehaviour
 
         
         Vector3 spawnOffset = Vector3.zero;
-        switch (facingDirection)
+        int rand = Random.Range(1, 5);
+        switch (rand)
         {
-            case "left":
+            case 1:
                 spawnOffset = Vector3.left * 1.25f;
                 break;
-            case "right":
+            case 2:
                 spawnOffset = Vector3.right * 1.25f;
                 break;
-            case "up":
+            case 3:
                 spawnOffset = Vector3.up * 1.25f;
                 break;
-            case "down":
+            case 4:
                 spawnOffset = Vector3.down * 1.25f;
                 break;
             default:

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
+    public static AudioManager Instance;
     [SerializeField] AudioSource MusicSource;
     [SerializeField] AudioSource AmbienceSource;
     [SerializeField] AudioSource SFXSource;
@@ -20,22 +20,44 @@ public class AudioManager : MonoBehaviour
     List<AudioClip> lists = new List<AudioClip>();
 
     List<AudioClip> walks = new List<AudioClip>();
-    public void Awake()
+    private void Awake()
     {
-        lists.Add(Ambience1);
-        lists.Add(Ambience2);
-        lists.Add(Ambience3);
+        // Implement Singleton Pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(MusicSource);
+            DontDestroyOnLoad(AmbienceSource);
+            DontDestroyOnLoad(SFXSource);
 
-        MusicSource.clip = Music;
-        MusicSource.Play();
-        Walk();
-        SFXSource.enabled = false;
+            lists.Add(Ambience1);
+            lists.Add(Ambience2);
+            lists.Add(Ambience3);
+
+            MusicSource.clip = Music;
+            MusicSource.Play();
+
+            SFXSource.enabled = false;
+
+            StartAmbience();
+
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void StartAmbience()
+    {
         foreach (AudioClip clip in lists)
         {
             AmbienceSource.clip = clip;
             AmbienceSource.Play();
         }
     }
+
     public void WalkSFX()
     {
         SFXSource.enabled = true;

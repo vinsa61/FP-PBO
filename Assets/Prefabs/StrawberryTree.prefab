@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cropdata: {fileID: 11400000, guid: 1c1c0d6eb0f931444af81bb2d33fe093, type: 2}
-  harvested: {fileID: -7660360865477247518, guid: f5f93d9e3877cb243a4300d7b79cb10c, type: 3}
-  randomInt: 1
+  harvested: {fileID: 5920604169810578247, guid: 7debb912e923e0a41ac60ca3670adb89, type: 3}
+  randomInt: 3

@@ -7,7 +7,7 @@ public class ItemManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public Item[] items;
-    private Dictionary<string, Item> nameToItemDict = new Dictionary<string, Item>();
+    public Dictionary<string, Item> nameToItemDict { get; private set; } = new Dictionary<string, Item>();
 
     private void Awake()
     {

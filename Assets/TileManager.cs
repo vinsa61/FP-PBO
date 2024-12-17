@@ -33,74 +33,59 @@ public class TileManager : MonoBehaviour
     [SerializeField] public Tilemap interactive;
     [SerializeField] private Tile hiddenTile;
     [SerializeField] private Tile InteractedTile;
-    //[SerializeField] public Tilemap interactive1;
-    //[SerializeField] public Tilemap interactive2;
-    //[SerializeField] public Tilemap interactive3;
-    //private PolygonCollider2D polCollider;
-    //private BoxCollider2D boxCollider;
-    //[SerializeField] private Tile Chicken1;
-    //[SerializeField] private Tile Chicken2;
-    //[SerializeField] private Tile Chicken3;
-    //[SerializeField] private Tile Chicken4;
-    //[SerializeField] private Tile Chicken5;
-    //[SerializeField] private Tile Chicken6;
-    //[SerializeField] private Tile Chicken7;
-    //[SerializeField] private Tile Chicken8;
-    //[SerializeField] private Tile Chicken9;
-    //[SerializeField] private Tile Chicken10;
-    //[SerializeField] private Tile ChickenGate;
+    [SerializeField] public Tilemap interactive1;
+    [SerializeField] public Tilemap interactive2;
+    [SerializeField] public Tilemap interactive3;
+    [SerializeField] public Tilemap interactive4;
+    [SerializeField] public Tilemap interactive5;
+    [SerializeField] public Tilemap interactive6;
+
+
+    [SerializeField] private Tile Fence1;
+    [SerializeField] private Tile Fence2;
+    [SerializeField] private Tile Fence3;
+    [SerializeField] private Tile Fence4;
+    [SerializeField] private Tile Fence5;
+    [SerializeField] private Tile Fence6;
+    [SerializeField] private Tile Fence7;
+    [SerializeField] private Tile Fence8;
+    [SerializeField] private Tile Gate;
+
+
+
+    private PolygonCollider2D polCollider;
+    private BoxCollider2D boxCollider;
+    private PolygonCollider2D polCollider1;
+    private BoxCollider2D boxCollider1;
+
+
     public Dictionary<Vector3Int, Struct> Seeded { get; private set ; } = new Dictionary<Vector3Int, Struct>();
     void Start()
     {
 
-        //polCollider = interactive1.GetComponent<PolygonCollider2D>();
-        //boxCollider = interactive3.GetComponent<BoxCollider2D>();
-        //polCollider.enabled = false;
-        //boxCollider.enabled = false;
-        foreach (var position in interactive.cellBounds.allPositionsWithin)
-        {
-            TileBase tile = interactive.GetTile(position);
-            if (tile != null && tile.name == "Interactable")
-            {
-                interactive.SetTile(position, hiddenTile);
-            }
+        polCollider = interactive1.GetComponent<PolygonCollider2D>();
+        boxCollider = interactive3.GetComponent<BoxCollider2D>();
+        polCollider1 = interactive4.GetComponent<PolygonCollider2D>();
+        boxCollider1 = interactive6.GetComponent<BoxCollider2D>();
 
-        }
+        polCollider.enabled = false;
+        boxCollider.enabled = false;
+        polCollider1.enabled = false;
+        boxCollider1.enabled = false;
 
-        //foreach (var position in interactive1.cellBounds.allPositionsWithin)
-        //{
-        //    TileBase tile = interactive1.GetTile(position);
-        //    if (tile != null && tile.name == "Interactable")
-        //    {
-        //        interactive1.SetTile(position, hiddenTile);
-        //    }
+        ChangeAllToHidden(interactive);
+        ChangeAllToHidden(interactive1);
+        ChangeAllToHidden(interactive2);
+        ChangeAllToHidden(interactive3);
+        ChangeAllToHidden(interactive4);
+        ChangeAllToHidden(interactive5);
+        ChangeAllToHidden(interactive6);
 
-        //}
-        //interactive2.GetComponent<TilemapRenderer>().sortingOrder = 2;
-        //foreach (var position in interactive2.cellBounds.allPositionsWithin)
-        //{
-        //    TileBase tile = interactive2.GetTile(position);
-        //    if (tile != null && tile.name == "Interactable")
-        //    {
-        //        interactive2.SetTile(position, hiddenTile);
-        //    }
-
-        //}
-
-        //foreach (var position in interactive3.cellBounds.allPositionsWithin)
-        //{
-        //    TileBase tile = interactive3.GetTile(position);
-        //    if (tile != null && tile.name == "Interactable")
-        //    {
-        //        interactive3.SetTile(position, hiddenTile);
-        //    }
-
-        //}
     }
 
     private void Update()
     {
-
+        int a;
 
         if (Seeded.Count != 0)
         {
@@ -137,105 +122,158 @@ public class TileManager : MonoBehaviour
 
         }
 
-        //if (GameManager.Instance.player.transform.position.y > (interactive2.transform.position.y + 6))
-        //{
-        //    interactive2.GetComponent<TilemapRenderer>().sortingOrder = 4;
-        //}
-        //else
-        //{
-        //    interactive2.GetComponent<TilemapRenderer>().sortingOrder = 2;
-        //}
-
-
-        //if (GameManager.Instance.player.transform.position.y > (interactive3.transform.position.y + 6))
-        //{
-     
-        //    interactive3.GetComponent<TilemapRenderer>().sortingOrder = 4;
-        //}
-        //else
-        //{
-        //    interactive3.GetComponent<TilemapRenderer>().sortingOrder = 2;
-        //}
-
-
-
-
-    }
-
-    void ChangeTilesBetween(Vector3Int start, Vector3Int end, Tile tile, Tilemap tiles)
-    {
-        // Loop through the range of tiles between A and B
-        for (int x = Mathf.Min(start.x, end.x); x <= Mathf.Max(start.x, end.x); x++)
+        if (GameManager.Instance.player.transform.position.y > (interactive2.transform.position.y + 6))
         {
-            for (int y = Mathf.Min(start.y, end.y); y <= Mathf.Max(start.y, end.y); y++)
-            {
-                // Set the tile at the current position
-                Vector3Int currentPosition = new Vector3Int(x, y, start.z);
-                tiles.SetTile(currentPosition, tile);
-            }
+            interactive2.GetComponent<TilemapRenderer>().sortingOrder = 4;
+        }
+        else
+        {
+            interactive2.GetComponent<TilemapRenderer>().sortingOrder = 2;
         }
 
-        Debug.Log("Tiles changed from A to B!");
+
+        if (GameManager.Instance.player.transform.position.y > (interactive3.transform.position.y + 6))
+        {
+     
+            interactive3.GetComponent<TilemapRenderer>().sortingOrder = 4;
+        }
+        else
+        {
+            interactive3.GetComponent<TilemapRenderer>().sortingOrder = 2;
+        }
+        
+        if (GameManager.Instance.player.transform.position.x >= 21)
+        {
+            a = 2;
+        }
+        else
+        {
+            a = 6;
+        }
+
+        if (GameManager.Instance.player.transform.position.y > (interactive5.transform.position.y + a) )
+        {
+
+            interactive5.GetComponent<TilemapRenderer>().sortingOrder = 4;
+        }
+        else
+        {
+            interactive5.GetComponent<TilemapRenderer>().sortingOrder = 2;
+        }
+
+        if (GameManager.Instance.player.transform.position.y > (interactive6.transform.position.y + a))
+        {
+
+            interactive6.GetComponent<TilemapRenderer>().sortingOrder = 4;
+        }
+        else
+        {
+            interactive6.GetComponent<TilemapRenderer>().sortingOrder = 2;
+        }
+
+
+
+
     }
 
-    //public void ChickenPenBought()
-    //{
-    //    Vector3Int A = new Vector3Int(-14, 6, 0);
-    //    Vector3Int B = new Vector3Int(-18, 6, 0);
-    //    ChangeTilesBetween(A, B, Chicken1, interactive1);
-    //     A = new Vector3Int(-19, 7, 0);
-    //    B = new Vector3Int(-19, 14, 0);
-    //    ChangeTilesBetween(A, B, Chicken2, interactive1);
-    //     A = new Vector3Int(-11, 15, 0);
-    //     B = new Vector3Int(-18, 15, 0);
-    //    ChangeTilesBetween(A, B, Chicken3, interactive1);
-    //     A = new Vector3Int(-10, 7, 0);
-    //     B = new Vector3Int(-10, 14, 0);
-    //    ChangeTilesBetween(A, B, Chicken4, interactive1);
 
-    //    A = new Vector3Int(-10, 6, 0);
-    //    interactive1.SetTile(A, Chicken5);
-    //    A = new Vector3Int(-19, 6, 0);
-    //    interactive1.SetTile(A, Chicken6);
-    //    A = new Vector3Int(-19, 15, 0);
-    //    interactive1.SetTile(A, Chicken7);
-    //    A = new Vector3Int(-10, 15, 0);
-    //    interactive1.SetTile(A, Chicken8);
 
-    //    A = new Vector3Int(-10, 6, 0);
-    //    interactive2.SetTile(A, Chicken5);
+    public void ChickenPenBought()
+    {
 
-    //    A = new Vector3Int(-19, 6, 0);
-    //    interactive1.SetTile(A, Chicken6);
-    //    A = new Vector3Int(-14, 6, 0);
-    //     B = new Vector3Int(-18, 6, 0);
-    //    ChangeTilesBetween(A, B, Chicken1, interactive2);
-    //    A = new Vector3Int(-12, 6, 0);
-    //    interactive3.SetTile(A, ChickenGate);
-    //    A = new Vector3Int(-11, 6, 0);
-    //    interactive2.SetTile(A, Chicken9);
-    //    A = new Vector3Int(-13, 6, 0);
-    //    interactive2.SetTile(A, Chicken10);
+        ChangeAllTile(interactive1, Fence1);
+        ChangeAllTile(interactive2, Fence2);
 
-    //    polCollider.enabled = true;
-    //    boxCollider.enabled = true; 
+
+        var posA = new Vector3Int(-19, 15, 0);
+        interactive2.SetTile(posA, Fence3);
+        posA = new Vector3Int(-10, 15, 0);
+        interactive2.SetTile(posA, Fence4);
+        posA = new Vector3Int(-19, 6, 0);
+        interactive2.SetTile(posA, Fence5);
+        posA = new Vector3Int(-10, 6, 0);
+        interactive2.SetTile(posA, Fence6);
+        posA = new Vector3Int(-11, 6, 0);
+        interactive2.SetTile(posA, Fence7);
+        posA = new Vector3Int(-13, 6, 0);
+        interactive2.SetTile(posA, Fence8);
+
+        ChangeAllTile(interactive3, Gate);
+ 
+
+
+        polCollider.enabled = true;
+        boxCollider.enabled = true; 
 
 
 
-    //}
+    }
+
+    public void CowPenBought()
+    {
+
+        ChangeAllTile(interactive4, Fence1);
+        ChangeAllTile(interactive5, Fence2);
+
+        var posA = new Vector3Int(10, 15, 0);
+        interactive5.SetTile(posA, Fence3);
+        posA = new Vector3Int(28, 15, 0);
+        interactive5.SetTile(posA, Fence4);
+        posA = new Vector3Int(21, 6, 0);
+        interactive5.SetTile(posA, Fence4);
+        posA = new Vector3Int(10, 6, 0);
+        interactive5.SetTile(posA, Fence5);
+        posA = new Vector3Int(21, 2, 0);
+        interactive5.SetTile(posA, Fence5);
+        posA = new Vector3Int(28, 2, 0);
+        interactive5.SetTile(posA, Fence6);
+        posA = new Vector3Int(25, 2, 0);
+        interactive5.SetTile(posA, Fence7);
+        posA = new Vector3Int(23, 2, 0);
+        interactive5.SetTile(posA, Fence8);
 
 
+        ChangeAllTile(interactive6, Gate);
 
+
+        polCollider1.enabled = true;
+        boxCollider1.enabled = true;
+
+    }
+
+    public void ChangeAllTile(Tilemap tiles, Tile tile)
+    {
+        foreach (var position in tiles.cellBounds.allPositionsWithin)
+        {
+            if (tiles.HasTile(position))
+            {
+                tiles.SetTile(position, tile);
+            }
+        }
+    }
+
+    public void ChangeAllToHidden(Tilemap tiles)
+    {
+        foreach (var position in tiles.cellBounds.allPositionsWithin)
+        {
+            TileBase tile = tiles.GetTile(position);
+            if (tile != null && tile.name == "Interactable")
+            {
+                tiles.SetTile(position, hiddenTile);
+            }
+
+        }
+    }
 
 
     public bool isInteractable(Vector3Int position)
     {
-        //Debug.Log($"BISA 4 {position}");
+        Debug.Log($"BISA 4 {position}");
         TileBase tile = interactive.GetTile(position);
-        //Debug.Log($"{tile}");
+        Debug.Log($"{tile}");
         if (tile != null)
         {
-            //Debug.Log($"BISA2 {position}");
+            Debug.Log($"BISA2 {position}");
             if (tile.name == "Interactable_NotVis")
             {
                 return true;
